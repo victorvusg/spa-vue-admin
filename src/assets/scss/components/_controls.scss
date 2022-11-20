@@ -1,0 +1,14 @@
+
+.error-message-hidden {
+    .v-text-field__details{
+        display: none;
+    }
+    .v-input__control {
+        .v-input__slot {
+            margin-bottom: 0;
+        }
+        .v-messages {
+            display: none !important;
+        }
+    }
+}

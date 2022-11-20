@@ -1,0 +1,24 @@
+.mobile-toolbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.two-side-desktop-wrapper {
+  height: calc(100% - 64px);
+  min-height: unset !important;
+  .two-side-content {
+    height: 100%;
+    overflow: hidden;
+    .left-content {
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+    .right-content {
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+}
