@@ -43,6 +43,10 @@
         {{ intake.customer_earned_points | currency }}
       </div>
     </v-col>
+    <v-col cols="6">
+      <div class="field-name grey--text">Sử điểm giảm</div>
+      <div class="field-value">{{ pointsUsedAmount }} điểm</div>
+    </v-col>
     <v-col cols="12" class="primary--text d-flex align-center justify-center">
       <div class="field-value" style="letter-spacing: 1px">
         Tổng Cộng: {{ intake.final_price | currency }}
@@ -73,6 +77,13 @@ export default {
         // eslint-disable-next-line no-param-reassign
         acc += current.discount_amount || 0;
         return acc;
+      }, 0);
+    },
+    pointsUsedAmount() {
+      if (!this.intake.point_logs) return 0;
+      return this.intake.point_logs.reduce((sum, log) => {
+        const matches = log.message.match(/(?<=\{).+?(?=\})/g);
+        return sum + Number(matches[0]);
       }, 0);
     },
   },

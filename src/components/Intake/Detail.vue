@@ -1,3 +1,4 @@
+<!-- eslint-disable function-paren-newline -->
 <template>
   <div v-if="intake" :class="{ 'two-side-desktop-wrapper': !isMobile }">
     <v-row
@@ -76,6 +77,23 @@
         </v-card>
         <v-card elevation="0" class="px-3 mb-3 white">
           <InvoiceCard :intake="intake" />
+        </v-card>
+        <v-card elevation="0" class="px-3 mb-3 white" v-if="pointLogs.length">
+          <div class="subtitle-1 font-weight-bold mb-2">
+            Lịch sử dùng điểm
+          </div>
+          <ul>
+            <li
+              class="subtitle-1 mb-2"
+              v-for="(log, index) in pointLogs"
+              :key="index"
+            >
+              <span v-html="log.message" />
+              <span class="caption ml-1"
+                >(ghi nhận ngày {{ log.created_at | formatDate }})</span
+              >
+            </li>
+          </ul>
         </v-card>
         <template v-if="intake.is_valid && intake.payment_method_id">
           <template v-if="intake.payment_method_id !== 'credit'">
@@ -270,6 +288,16 @@ export default {
         [...this.singleTickets, ...this.promotionDeals],
         'unit_price',
       );
+    },
+    pointLogs() {
+      if (!this.intake.point_logs) return [];
+      return this.intake.point_logs.map((log) => ({
+        ...log,
+        message: log.message.replace(
+          /{([^"]+)}/g,
+          '<strong class="name">$1</strong>',
+        ),
+      }));
     },
   },
   methods: {
