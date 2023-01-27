@@ -44,7 +44,7 @@
       </div>
     </v-col>
     <v-col cols="6">
-      <div class="field-name grey--text">Sử điểm giảm</div>
+      <div class="field-name grey--text">Sử dụng điểm giảm</div>
       <div class="field-value">{{ pointsUsedAmount }} điểm</div>
     </v-col>
     <v-col cols="12" class="primary--text d-flex align-center justify-center">
@@ -82,8 +82,8 @@ export default {
     pointsUsedAmount() {
       if (!this.intake.point_logs) return 0;
       return this.intake.point_logs.reduce((sum, log) => {
-        const matches = log.message.match(/(?<=\{).+?(?=\})/g);
-        return sum + Number(matches[0]);
+        const matches = log.message.match(/\{(.*?)\}/);
+        return sum + Number(matches[1]);
       }, 0);
     },
   },
