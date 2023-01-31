@@ -13,36 +13,32 @@
           v-model="formObject.service_category_id"
           item-text="descriptions"
           item-value="id"
-          :label="$t('add_service_form.category')"
+          :label="$t(`${formType}.category`)"
           :rules="validations.required"
           required
         ></v-select>
       </v-col>
       <v-col cols="12" class="pa-0 pb-2">
         <v-text-field
-          :label="$t('add_service_form.name')"
+          :label="$t(`${formType}.name`)"
           v-model="formObject.name"
           :rules="validations.required"
           required
         />
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        class="pa-0"
-        v-if="selectedCategory && selectedCategory.name !== 'promotion'"
-      >
+      <!-- // Sold by combo -->
+      <v-col cols="12" sm="6" class="pa-0" v-if="isSoldByPackage">
         <v-checkbox
           class="mt-0"
           v-model="formObject.is_combo_sold"
-          :label="$t('add_service_form.is_combo_sold')"
+          :label="$t(`${formType}.is_combo_sold`)"
         ></v-checkbox>
       </v-col>
       <v-col cols="12" sm="6" class="pa-0 pb-2">
         <v-text-field
           type="number"
           v-if="formObject.is_combo_sold"
-          :label="$t('add_service_form.combo_commission')"
+          :label="$t(`${formType}.combo_commission`)"
           v-model="formObject.combo_commission"
           suffix="%"
           :rules="validations.commission.concat(validations.percentage)"
@@ -50,7 +46,7 @@
         />
       </v-col>
     </v-row>
-    <div class="subtitle-1 px-3">Các lựa chọn khi bán dịch vụ:</div>
+    <div class="subtitle-1 px-3">{{$t(`${formType}.variants`)}}:</div>
     <v-row
       v-for="(variant, index) in formObject.variants"
       :key="`variant_${index}`"
@@ -59,10 +55,16 @@
     >
       <v-col cols="12" class="pa-0 pb-2">
         <v-text-field
-          :label="$t('add_service_form.variant.name')"
+          :label="$t(`${formType}.variant.name`)"
           v-model="variant.name"
           :rules="validations.required"
           required
+        />
+      </v-col>
+      <v-col cols="12" class="pa-0 pb-2">
+        <v-textarea
+          :label="$t(`${formType}.variant.description`)"
+          v-model="variant.description"
         />
       </v-col>
       <v-col cols="6" sm="6" class="pa-0 pr-4">
@@ -70,7 +72,7 @@
           :menu-props="{ bottom: true, offsetY: true }"
           :items="genders"
           v-model="variant.gender"
-          :label="$t('add_service_form.variant.gender')"
+          :label="$t(`${formType}.variant.gender`)"
           :rules="validations.required"
           required
         ></v-select>
@@ -83,7 +85,7 @@
           v-model="variant.variant_category"
           item-text="descriptions"
           item-value="name"
-          :label="$t('add_service_form.variant.category')"
+          :label="$t(`${formType}.variant.category`)"
           :rules="validations.required"
           required
         ></v-select>
@@ -91,8 +93,17 @@
       <v-col cols="6" sm="4" class="pa-0 pr-4 pb-2">
         <v-text-field
           type="number"
-          :label="$t('add_service_form.variant.price')"
+          :label="$t(`${formType}.variant.price`)"
           v-model="variant.price"
+          :rules="validations.required"
+          required
+        />
+      </v-col>
+      <v-col cols="6" sm="4" class="pa-0 pr-4 pb-2">
+        <v-text-field
+          type="number"
+          :label="$t(`${formType}.variant.sale_price`)"
+          v-model="variant.sale_price"
           :rules="validations.required"
           required
         />
@@ -100,7 +111,7 @@
       <v-col cols="6" sm="4" class="pa-0 pb-2">
         <v-text-field
           type="number"
-          :label="$t('add_service_form.variant.commission_rate')"
+          :label="$t(`${formType}.variant.commission_rate`)"
           v-model="variant.commission_rate"
           suffix="%"
           :rules="validations.commission.concat(validations.percentage)"
@@ -110,13 +121,13 @@
       <v-col cols="12" class="pa-0 caption">
         Đơn giá:
         <span class="primary--text font-weight-bold">{{
-          variant.price | currency
+          variant.sale_price | currency
         }}</span>
       </v-col>
       <v-col cols="12" class="pa-0 caption mb-1">
         KTV nhận được:
         <span class="primary--text font-weight-bold">
-          {{ ((variant.price * variant.commission_rate) / 100) | currency }}
+          {{ ((variant.sale_price * variant.commission_rate) / 100) | currency }}
         </span>
       </v-col>
       <v-col cols="12" sm="6" class="pa-0">
@@ -124,9 +135,9 @@
           v-if="selectedCategory.name === 'promotion'"
           class="mt-0 error-message-hidden"
           v-model="variant.is_free"
-          :label="`Có phải loại được tặng? - ${
-            variant.is_free ? 'Có' : 'Không'
-          }`"
+          :label="
+            `Có phải loại được tặng? - ${variant.is_free ? 'Có' : 'Không'}`
+          "
         ></v-checkbox>
       </v-col>
       <v-col cols="12" sm="6" class="pa-0" style="text-align: right">
@@ -150,10 +161,10 @@
     </v-alert>
     <div class="d-flex justify-end mt-8">
       <v-btn color="primary" text @click="$emit('cancel')">
-        {{ $t('add_service_form.close') }}
+        {{ $t(`${formType}.close`) }}
       </v-btn>
       <v-btn color="primary" dark depressed @click="formSubmit()">
-        {{ $t('add_service_form.add') }}
+        {{ $t(`${formType}.add`) }}
       </v-btn>
     </div>
   </v-form>
@@ -208,6 +219,20 @@ export default {
       }
       return this.serviceCategories[0];
     },
+    selectedCategoryName() {
+      return this.selectedCategory.name;
+    },
+    formType() {
+      if (this.selectedCategoryName === 'goods') return 'add_goods_form';
+      return 'add_service_form';
+    },
+    isSoldByPackage() {
+      return (
+        this.selectedCategory &&
+        this.selectedCategory.name !== 'promotion' &&
+        this.selectedCategory.name !== 'goods'
+      );
+    },
   },
   watch: {
     'formObject.service_category_id': {
@@ -226,9 +251,11 @@ export default {
       this.formObject.variants.push({
         id: null,
         name: '',
+        description: '',
         gender: 'both',
         variant_category: this.selectedCategory.name,
         price: 0,
+        sale_price: 0,
         commission_rate: 0,
         is_free: false,
         is_active: true,

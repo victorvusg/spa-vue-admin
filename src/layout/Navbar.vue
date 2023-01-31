@@ -51,10 +51,9 @@
           </template>
 
           <v-list-item
-            link
             v-for="child in item.children"
             :key="child.title"
-            :to="{ name: item.pathName }"
+            :to="{ name: child.pathName }"
             active-class="white primary--text"
           >
             <v-list-item-content>
@@ -101,50 +100,65 @@ export default {
           icon: 'mdi-clipboard-check',
           pathName: 'Intake',
         },
-        {
-          title: this.$t('side_bar.invoices'),
-          icon: 'mdi-bank',
-          pathName: 'Invoices',
-        },
-        {
-          title: this.$t('side_bar.combos'),
-          icon: 'mdi-tag-heart',
-          pathName: 'Packages',
-        },
+
         {
           title: 'Khách hàng',
           icon: 'mdi-account-multiple',
-          pathName: 'Customers',
-        },
-        {
-          title: this.$t('side_bar.employee'),
-          icon: 'mdi-account-circle',
-          pathName: 'Employees',
+          children: [
+            {
+              title: 'Danh sách KH',
+              pathName: 'Customers',
+            },
+            {
+              title: this.$t('side_bar.invoices'),
+              pathName: 'Invoices',
+            },
+            {
+              title: this.$t('side_bar.combos'),
+              pathName: 'Packages',
+            },
+          ],
         },
         {
           title: this.$t('side_bar.services'),
-          icon: 'mdi-creation',
-          pathName: 'Services',
+          icon: 'mdi-plus',
+          children: [
+            {
+              title: 'Danh sách',
+              pathName: 'Services',
+            },
+            {
+              title: 'Các chương trình giảm giá',
+              pathName: 'Discount',
+            },
+            {
+              title: 'Nhập/Xuất kho',
+              pathName: 'ImportExport',
+            },
+          ],
         },
+
         {
-          title: 'Các chương trình giảm giá',
-          icon: 'mdi-sale',
-          pathName: 'Discount',
-        },
-        {
-          title: this.$t('side_bar.report'),
+          title: 'Quản Lý Công việc',
           icon: 'mdi-clipboard-outline',
-          pathName: 'Report',
-        },
-        {
-          title: 'Thống kê việc',
-          icon: 'mdi-format-list-bulleted',
-          pathName: 'WorkSummary',
-        },
-         {
-          title: 'Phân công việc',
-          icon: 'mdi-bulletin-board',
-          pathName: 'Tasks',
+          children: [
+            {
+              title: this.$t('side_bar.employee'),
+              pathName: 'Employees',
+            },
+            {
+              title: this.$t('side_bar.report'),
+              pathName: 'Report',
+            },
+            {
+              title: 'Thống kê việc',
+              pathName: 'WorkSummary',
+            },
+            {
+              title: 'Phân công việc',
+              pathName: 'Tasks',
+            },
+          ],
         },
       ];
       return menus;
@@ -152,7 +166,7 @@ export default {
   },
   methods: {
     isActive(children) {
-      return children.some((c) => c.link === this.$route.path);
+      return children.some((c) => c.pathName === this.$route.name);
     },
     logout() {
       localStorage.removeItem('jwt-token');

@@ -10,11 +10,12 @@
 .main-content {
   // padding-left: calc(#{$sidebar-expanded-width} + 1rem);
   padding-left: 1rem;
-  padding-top: calc(#{$appbar-height} + 1rem);
   padding-right: 1rem;
   padding-bottom: 1rem;
+  padding-top: calc(#{$appbar-height} + 1rem);
   min-height: 100vh;
 }
 .padding-for-sidebar {
   margin-left: calc(#{$sidebar-expanded-width} + 1rem);
+  padding-top: 1rem;
 }

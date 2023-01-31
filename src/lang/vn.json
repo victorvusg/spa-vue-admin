@@ -17,7 +17,7 @@
     "customers": "Danh sách khách hàng",
     "employees": "Danh sách Kỹ Thuật Viên",
     "employee": "Kỹ Thuật Viên",
-    "services": "Danh sách dịch vụ",
+    "services": "Dịch vụ & sản phẩm",
     "tasks": "Lịch công việc"
   },
   "login_form": {
@@ -36,7 +36,7 @@
     "combos": "Gói dịch vụ",
     "employee": "Danh sách nhân sự",
     "customer": "Danh sách KH",
-    "services": "Danh sách dịch vụ",
+    "services": "Dịch vụ & sản phẩm",
     "invoices": "Giao dịch Xu",
     "task": "Lịch công việc"
   },
@@ -179,8 +179,8 @@
     "heading": "Chi tiết"
   },
   "services": {
-    "manage": "Quản lý dịch vụ spa",
-    "add": "Thêm dịch vụ",
+    "manage": "Quản lý dịch vụ & sản phẩm",
+    "add": "Tạo mới",
     "add_cat": "Thêm mảng dịch vụ",
     "search": "Tìm kiếm",
     "order": "làm dịch vụ",
@@ -195,14 +195,14 @@
     "combo_header": "Gói",
     "commission": "Hoa hồng",
     "cat": "Loại",
-    "credit_price": "Giá Xu"
+    "credit_price": "Giá Xu",
+    "stock": "Số lượng"
   },
   "add_service_form": {
     "name": "Tên dịch vụ",
     "category": "Phân loại",
     "price": "Giá",
     "description": "Mô tả",
-    "order_commission": "Hoa hồng làm dịch vụ",
     "is_combo_sold": "Được bán dạng package ?",
     "combo_commission": "Hoa hồng bán gói",
     "combo_sold": "Bán dạng gói",
@@ -214,12 +214,36 @@
     "commission_warning": "Hoa hồng không hợp lệ",
     "variant": {
       "name": "Tên loại",
+      "description": "Mô tả",
       "gender": "Dành cho",
       "category": "Phân loại",
+      "sale_price": "Giá bán",
       "price": "Giá",
       "commission_rate": "Hoa hồng làm việc",
       "credit_price": "Giá Xu"
-    }
+    },
+    "variants": "Các lựa chọn khi bán dịch vụ"
+  },
+  "add_goods_form": {
+    "name": "Tên thương hiệu ( Brand )",
+    "category": "Phân loại",
+    "price": "Giá",
+    "description": "Mô tả",
+    "close": "Đóng",
+    "add": "Tạo",
+    "name_required": "Vui lòng điền tên sản phẩm",
+    "price_required": "Vui lòng điền giá",
+    "commission_warning": "Hoa hồng không hợp lệ",
+    "variant": {
+      "name": "Tên sản phẩm",
+      "description": "Mô tả",
+      "gender": "Dành cho",
+      "category": "Phân loại",
+      "sale_price": "Giá bán",
+      "price": "Giá nhập",
+      "commission_rate": "Hoa hồng bán sản phẩm"
+    },
+    "variants": "Các dòng sản phẩm"
   },
   "addIntakeDialog": {
     "headline": "Tạo đơn check-in"

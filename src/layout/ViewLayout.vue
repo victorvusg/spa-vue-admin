@@ -5,9 +5,9 @@
       'padding-for-sidebar': !isMobile,
     }"
   >
-    <h3 class="mb-4" v-if="viewTitle">
+    <!-- <h3 class="mb-4" v-if="viewTitle">
       {{ viewTitle }}
-    </h3>
+    </h3> -->
     <v-breadcrumbs
       :items="breadcrumbsItems"
       class="pl-0"

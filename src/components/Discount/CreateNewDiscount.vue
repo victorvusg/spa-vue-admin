@@ -10,7 +10,7 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn class="ml-2" depressed small @click="open">
-        <v-icon left small>mdi-creation</v-icon>
+        <v-icon left small>mdi-plus</v-icon>
         <span>Tạo chương trình</span>
       </v-btn>
     </template>

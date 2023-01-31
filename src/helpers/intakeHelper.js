@@ -23,8 +23,8 @@ export const mapIntakeFunc = (intakeDetailInfo) => {
         // If intake is not approved yet, price and base price is variant price
         let { price, base_price, name } = o;
         if (!intake.is_valid) {
-          price = o.variant.price;
-          base_price = o.variant.price;
+          price = o.variant.sale_price;
+          base_price = o.variant.sale_price;
           name = o.variant.service.name;
           if (o.variant.name) {
             name = o.variant.name;
@@ -40,8 +40,8 @@ export const mapIntakeFunc = (intakeDetailInfo) => {
         const type = o.variant.service.service_category.name;
         let { name, price, base_price } = o;
         if (!intake.is_valid) {
-          price = o.variant.price;
-          base_price = o.variant.price;
+          price = o.variant.sale_price;
+          base_price = o.variant.sale_price;
           name = o.variant.service.name;
           if (o.variant.name) {
             name = o.variant.name;

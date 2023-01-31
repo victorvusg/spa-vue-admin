@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <v-app-bar color="grey lighten-5" fixed dense light flat>
+  <div class="mobile-nav">
+    <v-app-bar color="primary" fixed dense dark flat>
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
-        class="primary--text"
+        class="white--text"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-navigation-drawer
-      hide-overlay
       fixed
       width="15rem"
       v-model="drawer"
@@ -22,6 +21,11 @@
 <script>
 export default {
   name: 'MobileSidebar',
+  data() {
+    return {
+      drawer: false,
+    };
+  },
 };
 </script>
 <style></style>

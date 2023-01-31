@@ -518,7 +518,7 @@ export default {
           .map((fv) => ({
             value: fv.id,
             text: fv.name || 'Chưa có tên',
-            price: fv.price,
+            price: fv.sale_price,
           })),
       ];
     },

@@ -61,7 +61,9 @@ const routes = [
         name: 'IntakeDetails',
         components: {
           default: () =>
-            import(/* webpackChunkName: "IntakeDetails" */ '@/views/IntakeDetails'),
+            import(
+              /* webpackChunkName: "IntakeDetails" */ '@/views/IntakeDetails'
+            ),
         },
       },
       {
@@ -162,6 +164,16 @@ const routes = [
         components: {
           default: () =>
             import(/* webpackChunkName: "Tasks" */ '@/views/Tasks'),
+          navbar: () =>
+            import(/* webpackChunkName: "Navbar" */ '@/layout/Navbar'),
+        },
+      },
+      {
+        path: '/import-export',
+        name: 'ImportExport',
+        components: {
+          default: () =>
+            import(/* webpackChunkName: "ImportExport" */ '@/views/ImportExport'),
           navbar: () =>
             import(/* webpackChunkName: "Navbar" */ '@/layout/Navbar'),
         },

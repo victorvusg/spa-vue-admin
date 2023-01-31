@@ -143,7 +143,7 @@ export default {
       }
     },
     reCalculate(item) {
-      const price = item.combo_id ? item.variant.price : item.price;
+      const price = item.combo_id ? item.variant.sale_price : item.price;
       const rate = item.variant.commission_rate / 100;
       const overtime = item.is_overtime ? 1.5 : 1;
       const pointRate =

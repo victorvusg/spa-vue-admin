@@ -54,7 +54,7 @@ export default {
       return variants.reduce((sum, v) => {
         if (!v.is_free) {
           // eslint-disable-next-line no-param-reassign
-          sum += v.price;
+          sum += v.sale_price;
         }
         return sum;
       }, 0);
@@ -66,7 +66,7 @@ export default {
       if (!id) return '';
       let discount = 0;
       let finalPrice = 0;
-      const stockPrice = this.variantsData.find((el) => el.value === id).price;
+      const stockPrice = this.variantsData.find((el) => el.value === id).sale_price;
       if (type === 'percentage') discount = (stockPrice * value) / 100;
       else discount = value;
       finalPrice = stockPrice - discount;

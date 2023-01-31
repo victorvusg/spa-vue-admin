@@ -20,7 +20,7 @@
           <div v-if="!dataSource.combo">
             {{ $t('orderInfomartionCard.price') }}:
             <span class="info--text">{{
-              dataSource.variant.price | currency
+              dataSource.variant.sale_price | currency
             }}</span>
             <div
               style="font-size:10px;font-style:oblique"
