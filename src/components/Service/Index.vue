@@ -2,14 +2,13 @@
   <div class="service-list">
     <div class="d-flex align-center justify-space-between py-4">
       <h3>{{ $t('services.manage') }}</h3>
-      <v-btn
-        depressed
-        small
-        color="primary"
-        @click="toggleDialog('AddNewServiceForm', true)"
-        ><v-icon left small>mdi-plus</v-icon>
-        <span> {{ $t('services.add') }}</span></v-btn
-      >
+      <add-service-and-variants
+        :fullscreen="!$vuetify.breakpoint.smAndUp"
+        :hide-overlay="!$vuetify.breakpoint.smAndUp"
+        max-width="900px"
+        persistent
+        @success="createdServiceSuccess()"
+      />
     </div>
     <v-card class="pa-4 rounded-lg d-flex align-center mb-8" elevation="4">
       <div class="flex-grow-1">
@@ -187,7 +186,7 @@
                             x-small
                             :value="1"
                             v-if="!item.is_active"
-                            color="green"
+                            color="primary"
                             @click="toggleActive(item, 1)"
                             >Mở</v-btn
                           >
@@ -200,6 +199,7 @@
                             @click="toggleActive(item, 0)"
                             >Tắt</v-btn
                           >
+                          <EditVariantDialog :variant="item" />
                         </div>
                       </template>
                       <template v-slot:no-data>
@@ -207,11 +207,21 @@
                       </template>
                     </v-data-table>
                     <div class="text-right">
-                      <AddVariants
+                      <add-service-and-variants
+                        :service="service"
+                        :category="service.service_category"
+                        :fullscreen="!$vuetify.breakpoint.smAndUp"
+                        :hide-overlay="!$vuetify.breakpoint.smAndUp"
+                        :purpose="'add_variants'"
+                        max-width="900px"
+                        persistent
+                        @success="createdServiceSuccess()"
+                      />
+                      <!-- <AddVariants
                         :service="service"
                         :selectedCategory="service.service_category"
                         @success="fetchData"
-                      />
+                      /> -->
                     </div>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -224,47 +234,19 @@
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-    <v-dialog
-      v-model="addServiceDialogStatus"
-      :fullscreen="!$vuetify.breakpoint.smAndUp"
-      :hide-overlay="!$vuetify.breakpoint.smAndUp"
-      transition="dialog-bottom-transition"
-      max-width="900px"
-      persistent
-    >
-      <v-card>
-        <v-toolbar dark color="primary" v-if="!$vuetify.breakpoint.smAndUp">
-          <v-toolbar-title>Tạo Dịch Vụ</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="addServiceDialogStatus = false">
-              Đóng
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <div class="pa-4">
-          <template v-if="addServiceDialogStatus">
-            <AddNewServiceForm
-              @cancel="addServiceDialogStatus = false"
-              @success="createdServiceSuccess()"
-            />
-          </template>
-        </div>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
-import AddNewServiceForm from '@/components/Service/forms/Add';
+import { mapActions, mapGetters } from 'vuex';
 import { privateAxios } from '@/api/api';
-import AddVariants from '@/components/Service/dialogs/AddVariants';
+import AddServiceAndVariants from './dialogs/AddServiceAndVariants';
+import EditVariantDialog from './dialogs/EditVariantDialog';
 
 export default {
   name: 'ServiceIndex',
   components: {
-    AddNewServiceForm,
-    AddVariants,
+    AddServiceAndVariants,
+    EditVariantDialog,
   },
   data() {
     return {
@@ -286,10 +268,10 @@ export default {
     },
   },
   computed: {
-    ...mapState('service', ['services']),
+    ...mapGetters('service', ['services']),
     headers() {
       const headers = [
-        { text: 'Mô tả', value: 'name', sortable: false },
+        { text: 'Tên', value: 'name', sortable: false },
         {
           text: 'Hoa hồng (%)',
           value: 'commission_rate',
@@ -300,6 +282,20 @@ export default {
         { text: '', value: 'data-table-expand', sortable: false },
       ];
       if (this.tab === 'tab-goods') {
+        headers.splice(
+          0,
+          0,
+          {
+            text: this.$t('services.product_line'),
+            value: 'product_line',
+            sortable: false,
+          },
+          {
+            text: this.$t('services.metadata'),
+            value: 'stock',
+            sortable: false,
+          },
+        );
         headers.splice(3, 0, {
           text: this.$t('services.stock'),
           value: 'stock',

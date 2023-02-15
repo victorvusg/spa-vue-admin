@@ -217,7 +217,7 @@
       "description": "Mô tả",
       "gender": "Dành cho",
       "category": "Phân loại",
-      "sale_price": "Giá bán",
+      "sale_price": "Giá",
       "price": "Giá",
       "commission_rate": "Hoa hồng làm việc",
       "credit_price": "Giá Xu"
@@ -241,9 +241,12 @@
       "category": "Phân loại",
       "sale_price": "Giá bán",
       "price": "Giá nhập",
-      "commission_rate": "Hoa hồng bán sản phẩm"
+      "commission_rate": "Hoa hồng bán sản phẩm",
+      "product_line": "Dòng sản phẩm"
     },
-    "variants": "Các dòng sản phẩm"
+    "variants": "Các dòng sản phẩm",
+    "settings": "Dạng thông tin sản phẩm",
+    "MilbonMapper": "Thông tin sản phẩm Milbon"
   },
   "addIntakeDialog": {
     "headline": "Tạo đơn check-in"
@@ -401,5 +404,14 @@
 	},
 	"to": "to",
 	"from": "from",
-	"of": "of"
+	"of": "of",
+  "goods_mappers": {
+    "MilbonMapper": {
+      "type": "Type",
+      "volume": "Thể tích(ml)",
+      "hairType": "Hair type"
+    }
+  },
+  "create_service": "Tạo Dịch Vụ",
+  "add_variants": "Thêm lựa chọn"
 }

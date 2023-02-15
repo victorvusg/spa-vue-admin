@@ -38,6 +38,7 @@ export default {
       return r;
     },
     variantName(variant) {
+      console.log(variant.service.mapper);
       const nameFragments = [];
       if (variant.name) {
         nameFragments.push(variant.name.trim());

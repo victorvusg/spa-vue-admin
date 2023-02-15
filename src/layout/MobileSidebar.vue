@@ -2,7 +2,7 @@
   <div class="mobile-nav">
     <v-app-bar color="primary" fixed dense dark flat>
       <v-app-bar-nav-icon
-        @click.stop="drawer = !drawer"
+        @click.stop="drawerModel = !drawerModel"
         class="white--text"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
     <v-navigation-drawer
       fixed
       width="15rem"
-      v-model="drawer"
+      v-model="drawerModel"
       class="primary"
       dark
     >
@@ -23,7 +23,7 @@ export default {
   name: 'MobileSidebar',
   data() {
     return {
-      drawer: false,
+      drawerModel: false,
     };
   },
 };

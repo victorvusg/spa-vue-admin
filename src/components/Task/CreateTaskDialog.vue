@@ -184,7 +184,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState } from 'vuex';
 import { privateAxios } from '@/api/api';
 import taskMixins from '@/mixins/task.mixins';
 
@@ -216,7 +216,6 @@ export default {
     ...mapState('statistic', ['statistic']),
   },
   methods: {
-    ...mapMutations('app', ['setLoading']),
     close() {
       Object.assign(this.$data, initialData());
     },

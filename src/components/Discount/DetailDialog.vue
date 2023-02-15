@@ -410,7 +410,7 @@
 <script>
 /* eslint-disable prefer-destructuring */
 // import moment from 'moment';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'CreateNewDiscount',
@@ -451,7 +451,8 @@ export default {
   },
   computed: {
     ...mapState('customer', ['ranks']),
-    ...mapState('service', ['serviceCategories', 'services', 'variants']),
+    ...mapState('service', ['serviceCategories', 'variants']),
+    ...mapGetters('service', ['services']),
     hours() {
       return [...Array(24).keys()].map((i) => (i < 10 ? `0${i}` : `${i}`));
     },
