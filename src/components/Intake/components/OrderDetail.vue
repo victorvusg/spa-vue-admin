@@ -11,7 +11,7 @@
             cols="12"
             class="pa-2 pt-0 font-weight-bold primary--text text-center"
           >
-            {{ order.variant.name }}
+            {{ variantName(order.variant) }}
           </v-col>
           <v-col
             cols="12"

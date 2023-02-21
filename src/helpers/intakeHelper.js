@@ -26,8 +26,8 @@ export const mapIntakeFunc = (intakeDetailInfo) => {
           price = o.variant.sale_price;
           base_price = o.variant.sale_price;
           name = o.variant.service.name;
-          if (o.variant.name) {
-            name = o.variant.name;
+          if (this.variantName(o.variant)) {
+            name = this.variantName(o.variant);
           }
         }
         orders.push({ ...order, note, type, name, price, base_price });
@@ -43,8 +43,8 @@ export const mapIntakeFunc = (intakeDetailInfo) => {
           price = o.variant.sale_price;
           base_price = o.variant.sale_price;
           name = o.variant.service.name;
-          if (o.variant.name) {
-            name = o.variant.name;
+          if (this.variantName(o.variant)) {
+            name = this.variantName(o.variant);
           }
         }
         return { ...order, note, type, name, price, base_price };

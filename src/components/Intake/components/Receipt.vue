@@ -304,7 +304,7 @@ export default {
         } else {
           mappedItem = {
             id: order.variant.id,
-            name: order.variant.name,
+            name: this.variantName(order.variant),
             amount: 1,
             stockPrice: order.unit_price,
             price: order.price,

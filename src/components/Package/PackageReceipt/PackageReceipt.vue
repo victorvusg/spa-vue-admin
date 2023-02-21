@@ -156,7 +156,7 @@ export default {
       if (!isEmpty(this.pack)) {
         receiptContent.total = this.pack.total_price;
         receiptContent.combos = this.pack.combos.map((combo) => ({
-          name: combo.variant.name,
+          name: this.variantName(combo.variant),
           gender: combo.variant.gender === 'both' ? '' : combo.variant.gender,
           amount: combo.amount,
           price: !combo.is_promotion_combo

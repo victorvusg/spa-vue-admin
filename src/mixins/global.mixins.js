@@ -1,7 +1,5 @@
 import { mapState } from 'vuex';
-import { get as _get } from 'lodash';
 import store from './store.mixins';
-import { variantNameMappers } from '../helpers/variantHelpers';
 
 export default {
   mixins: [store],
@@ -39,19 +37,19 @@ export default {
       }
       return r;
     },
-    variantName(variant) {
-      const mapper = variant.service.mapper || 'default';
-      const fields = variantNameMappers[mapper];
-      return fields
-        .reduce((result, key) => {
-          const value = _get(variant, key);
-          if (value) {
-            result.push(value);
-          }
-          return result;
-        }, [])
-        .join(' - ');
-    },
+    // variantName(variant) {
+    //   const mapper = variant.service.mapper || 'default';
+    //   const fields = variantNameMappers[mapper];
+    //   return fields
+    //     .reduce((result, key) => {
+    //       const value = _get(variant, key);
+    //       if (value) {
+    //         result.push(value);
+    //       }
+    //       return result;
+    //     }, [])
+    //     .join(' - ');
+    // },
     promotionPrice(variants) {
       return variants.reduce((sum, v) => {
         if (!v.is_free) {
@@ -74,6 +72,12 @@ export default {
       else discount = value;
       finalPrice = stockPrice - discount;
       return `Giá gốc <span class="font-weight-bold">${stockPrice}k</span>, giảm <span class="red--text">-${discount}k</span>,  còn <span class="primary--text">${finalPrice}k</span>`;
+    },
+    variantName(variant) {
+      if (variant.variant_category === 'goods') {
+        return variant.name;
+      }
+      return variant.name;
     },
   },
 };

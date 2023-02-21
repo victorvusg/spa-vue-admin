@@ -59,7 +59,7 @@
                       ),
                     }"
                   >
-                    {{ variant.name }}
+                    {{ variantName(variant) }}
                     <span v-if="variant.gender !== 'both'"
                       >- {{ $t(variant.gender) }}</span
                     >:
@@ -190,7 +190,7 @@ export default {
             targetArray[foundIndex].variants.push({
               id: order.variant.id,
               service_id: order.variant.service_id,
-              name: order.variant.name,
+              name: this.variantName(order.variant),
               gender: order.variant.gender,
               count: 1,
             });
@@ -206,7 +206,7 @@ export default {
               {
                 id: order.variant.id,
                 service_id: order.variant.service_id,
-                name: order.variant.name,
+                name: this.variantName(order.variant),
                 gender: order.variant.gender,
                 count: 1,
               },
