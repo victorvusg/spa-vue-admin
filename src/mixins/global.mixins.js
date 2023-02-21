@@ -1,5 +1,7 @@
 import { mapState } from 'vuex';
+import { get as _get } from 'lodash';
 import store from './store.mixins';
+import { variantNameMappers } from '../helpers/variantHelpers';
 
 export default {
   mixins: [store],
@@ -38,18 +40,17 @@ export default {
       return r;
     },
     variantName(variant) {
-      console.log(variant.service.mapper);
-      const nameFragments = [];
-      if (variant.name) {
-        nameFragments.push(variant.name.trim());
-      }
-      if (variant.description) {
-        nameFragments.push(`${variant.description}`.trim());
-      }
-      if (variant.gender !== 'both') {
-        nameFragments.push(`Dành cho ${this.$t(variant.gender)}`.trim());
-      }
-      return nameFragments.join(' - ');
+      const mapper = variant.service.mapper || 'default';
+      const fields = variantNameMappers[mapper];
+      return fields
+        .reduce((result, key) => {
+          const value = _get(variant, key);
+          if (value) {
+            result.push(value);
+          }
+          return result;
+        }, [])
+        .join(' - ');
     },
     promotionPrice(variants) {
       return variants.reduce((sum, v) => {
@@ -67,7 +68,8 @@ export default {
       if (!id) return '';
       let discount = 0;
       let finalPrice = 0;
-      const stockPrice = this.variantsData.find((el) => el.value === id).sale_price;
+      const stockPrice = this.variantsData.find((el) => el.value === id)
+        .sale_price;
       if (type === 'percentage') discount = (stockPrice * value) / 100;
       else discount = value;
       finalPrice = stockPrice - discount;

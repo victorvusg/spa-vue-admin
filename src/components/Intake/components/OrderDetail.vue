@@ -62,12 +62,13 @@
               :style="{ opacity: showPrice ? 1 : 0, lineHeight: 1 }"
             >
               <template v-if="order.combo_id === null">
-                {{ orderPrice | currency }} <span
+                {{ orderPrice | currency }}
+                <span
                   v-if="order.discount_description"
                   class="caption grey--text"
                 >
-                  ({{ order.discount_description }}) </span
-                ></template
+                  ({{ order.discount_description }})
+                </span></template
               >
               <template v-else>Gói</template>
             </div>
@@ -126,9 +127,9 @@ export default {
     },
     orderPrice() {
       if (this.order.price && this.order.price < this.order.unit_price) {
-        return this.order.price;
+        return this.order.price * this.order.amount;
       }
-      return this.order.unit_price;
+      return this.order.unit_price * this.order.amount;
     },
   },
 };
