@@ -36,7 +36,7 @@
           dense
           filled
           rounded
-          @change="(value) => updateModelSingleField(value, 'variant_id')"
+          @change="(value) => onVariantChange(value)"
         />
       </v-col>
       <v-col cols="12" sm="2">
@@ -130,6 +130,14 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    onVariantChange(value) {
+      const item = this.productItems.find((i) => i.id === value);
+      this.$emit('on-multiple-change', {
+        variant_id: value,
+        price: item.price,
+        sale_price: item.sale_price,
+      });
     },
   },
 };

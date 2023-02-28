@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" persistent scrollable max-width="1024px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-        Nhập
+        Nhập liệu
       </v-btn>
     </template>
     <v-card>
@@ -24,6 +24,7 @@
             :products="products"
             :getProducts="getProducts"
             v-model="newItems[index]"
+            @on-multiple-change="(value) => handleMultipleChange(value, index)"
             :key="index"
           >
             <template v-slot:action>
@@ -148,13 +149,15 @@ export default {
     },
     deleteItem(index) {
       this.newItems.splice(index, 1);
-      this.closeDelete();
     },
     close() {
       this.dialog = false;
       this.$nextTick(() => {
         this.newItems = [{ ...this.defaultItem }];
       });
+    },
+    handleMultipleChange(value, index) {
+      this.$set(this.newItems, index, { ...this.newItems[index], ...value });
     },
   },
   created() {
