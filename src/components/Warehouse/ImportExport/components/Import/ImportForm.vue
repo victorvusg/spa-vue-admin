@@ -33,7 +33,7 @@
                   <v-icon small>
                     mdi-delete
                   </v-icon>
-                  Xoa
+                  Xóa
                 </v-btn>
               </div>
             </template>
@@ -49,10 +49,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" text @click="close">
-          Thoat
+          Thoát
         </v-btn>
-        <v-btn color="primary" text @click="close">
-          Luu
+        <v-btn color="primary" text @click="submitForm">
+          Lưu
         </v-btn>
         <!-- <v-btn color="blue darken-1" text @click="save">
           Save
@@ -62,6 +62,7 @@
   </v-dialog>
 </template>
 <!-- eslint-disable no-unused-expressions -->
+<!-- eslint-disable camelcase -->
 <script>
 import { privateAxios } from '@/api/api';
 import ImportRecord from './ImportRecord';
@@ -78,7 +79,7 @@ export default {
       defaultItem: {
         service_id: null,
         variant_id: 0,
-        quality: 0,
+        amount: 0,
         price: 0,
         sale_price: 0,
         type: 'import',
@@ -158,6 +159,31 @@ export default {
     },
     handleMultipleChange(value, index) {
       this.$set(this.newItems, index, { ...this.newItems[index], ...value });
+    },
+    async submitForm() {
+      this.setLoading(true);
+      const promises = this.newItems.map((item) => {
+        const { sale_price, price, variant_id, intake_id, amount } = item;
+        return privateAxios.post(
+          process.env.VUE_APP_CLIENT_API_ENDPOINT_PRODUCT_LOG,
+          {
+            type: 'stock_up',
+            sale_price,
+            price,
+            variant_id,
+            intake_id,
+            amount,
+          },
+        );
+      });
+      try {
+        await Promise.all(promises);
+        this.$emit('on-submit', true);
+        this.close();
+        this.setLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   created() {

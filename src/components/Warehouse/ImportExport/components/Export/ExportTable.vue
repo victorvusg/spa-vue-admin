@@ -12,13 +12,11 @@
           style="width:100%"
         >
           <div>
-            DANH SÁCH NHẬP KHO
+            DANH SÁCH XUẤT KHO
             <v-btn depressed icon color="primary" @click="fetchData()">
               <v-icon dark>mdi-refresh</v-icon>
             </v-btn>
           </div>
-          <v-spacer></v-spacer>
-          <ImportForm @on-submit="handleOnSubmit" />
         </v-toolbar-title>
       </v-toolbar>
     </template>
@@ -28,15 +26,13 @@
     <template v-slot:item.brand="{ item }">
       {{ item.variant.service.name }}
     </template>
+    <template v-slot:item.type="{ item }">
+      {{ $t(item.type) }}
+    </template>
     <template v-slot:item.amount="{ item }">
       {{ item.amount }}
     </template>
-    <template v-slot:item.price="{ item }">
-      {{ item.price | currency }}
-    </template>
-    <template v-slot:item.sale_price="{ item }">
-      {{ item.sale_price | currency }}
-    </template>
+
     <template v-slot:item.created_at="{ item }">
       {{ item.created_at | formatDate(true) }}
     </template>
@@ -47,24 +43,14 @@
 </template>
 <script>
 import CoreTable from '@/core/components/CoreTable';
-import ImportForm from './ImportForm';
 
 export default {
   name: 'ImportTable',
-  components: { ImportForm, CoreTable },
+  components: { CoreTable },
   data() {
     return {
       tab: null,
-      url: process.env.VUE_APP_CLIENT_API_ENDPOINT_PRODUCT_LOG,
-      extraParams: {
-        type: ['stock_up'],
-      },
-      tableRf: 'ImportTable',
-    };
-  },
-  computed: {
-    headers() {
-      const headers = [
+      headers: [
         { text: 'Tên sản phẩm', value: 'name', sortable: false },
         {
           text: 'Hãng',
@@ -72,19 +58,16 @@ export default {
           sortable: false,
           value: 'brand',
         },
+        { text: 'Nội Dung', value: 'type', sortable: false },
         { text: 'Số lượng', value: 'amount', sortable: false },
-        { text: 'Giá Nhập', value: 'price', sortable: false },
-        { text: 'Ngày nhập', value: 'created_at', sortable: false },
-      ];
-      if (this.loggedRole === 'admin') {
-        headers.splice(4, 0, {
-          text: 'Giá Nhập',
-          value: 'price',
-          sortable: false,
-        });
-      }
-      return headers;
-    },
+        { text: 'Ngày xuất', value: 'created_at', sortable: false },
+      ],
+      url: process.env.VUE_APP_CLIENT_API_ENDPOINT_PRODUCT_LOG,
+      extraParams: {
+        type: ['sell', 'use'],
+      },
+      tableRf: 'ImportTable',
+    };
   },
   methods: {
     handleOnSubmit(event) {

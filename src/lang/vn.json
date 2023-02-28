@@ -413,5 +413,7 @@
     }
   },
   "create_service": "Tạo Dịch Vụ",
-  "add_variants": "Thêm lựa chọn"
+  "add_variants": "Thêm lựa chọn",
+  "use": "Sử dụng",
+  "sell": "Bán"
 }

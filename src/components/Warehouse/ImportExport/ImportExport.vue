@@ -13,27 +13,37 @@
         class="service-tabs custom"
       >
         <v-tabs-slider></v-tabs-slider>
+        <v-tab :href="'#warehouse-instock'">Tồn kho</v-tab>
 
         <v-tab :href="'#warehouse-import'">Nhập kho</v-tab>
         <v-tab :href="'#warehouse-export'">Xuất kho</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item value="warehouse-import">
+        <v-tab-item value="warehouse-instock">
+          <InStockTable v-if="tab === 'warehouse-instock'" />
+        </v-tab-item>
+        <v-tab-item value="warehouse-import" v-if="tab === 'warehouse-import'">
           <ImportTable />
         </v-tab-item>
-        <v-tab-item value="warehouse-export">Xuat kho</v-tab-item>
+        <v-tab-item value="warehouse-export" v-if="tab === 'warehouse-export'">
+          <ExportTable />
+        </v-tab-item>
       </v-tabs-items>
     </v-card>
   </div>
 </template>
 <!-- eslint-disable no-unused-expressions -->
 <script>
+import ExportTable from './components/Export/ExportTable';
 import ImportTable from './components/Import/ImportTable';
+import InStockTable from './components/Stock/InStockTable';
 
 export default {
   name: 'ImportExport',
   components: {
     ImportTable,
+    ExportTable,
+    InStockTable,
   },
   data() {
     return {

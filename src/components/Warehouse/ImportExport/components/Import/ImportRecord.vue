@@ -1,8 +1,8 @@
 <template>
   <div class="d-sm-flex align-center">
     <v-row class="mr-2">
-      <v-col cols="12" sm="2">
-        <label class="caption font-weight-bold">Hang</label>
+      <v-col cols="12" sm="6">
+        <label class="caption font-weight-bold">Hãng</label>
         <v-autocomplete
           :loading="isLoading"
           :disabled="isLoading"
@@ -20,13 +20,31 @@
           @change="onServiceChange"
         />
       </v-col>
-      <v-col cols="12" sm="4">
-        <label class="caption font-weight-bold">Ten san pham</label>
+      <v-col cols="12" sm="6">
+        <label class="caption font-weight-bold">
+          Dòng Sản Phẩm
+        </label>
         <v-autocomplete
           :loading="isLoading"
           :disabled="isLoading || !model.service_id"
+          v-model="productLine"
+          :items="productLines"
+          color="blue-grey lighten-2"
+          hide-details
+          class="pt-0 mt-0 rounded-lg custom-padding"
+          :placeholder="''"
+          dense
+          filled
+          rounded
+        />
+      </v-col>
+      <v-col cols="12" sm="6">
+        <label class="caption font-weight-bold">Tên sản phẩm</label>
+        <v-autocomplete
+          :loading="isLoading"
+          :disabled="isLoading || !model.service_id || !productLine"
           :value="model.variant_id"
-          :items="productItems"
+          :items="productNameItems"
           color="blue-grey lighten-2"
           item-text="name"
           item-value="id"
@@ -39,11 +57,12 @@
           @change="(value) => onVariantChange(value)"
         />
       </v-col>
-      <v-col cols="12" sm="2">
-        <label class="caption font-weight-bold">So Luong</label>
+      <v-col cols="12" sm="">
+        <label class="caption font-weight-bold">Số lượng</label>
         <v-text-field
-          :value="model.quality"
-          @input="(value) => updateModelSingleField(value, 'quality')"
+          :value="model.amount"
+          type="number"
+          @input="(value) => updateModelSingleField(value, 'amount')"
           hide-details
           class="pt-0 mt-0 rounded-lg custom-padding"
           :placeholder="''"
@@ -53,9 +72,10 @@
           :disabled="isLoading || !model.service_id || !model.variant_id"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="2">
-        <label class="caption font-weight-bold">Gia nhap</label>
+      <v-col cols="12" sm="" v-if="isAdmin">
+        <label class="caption font-weight-bold">Giá nhập</label>
         <v-text-field
+          type="number"
           :value="model.price"
           @input="(value) => updateModelSingleField(value, 'price')"
           hide-details
@@ -67,9 +87,10 @@
           :disabled="isLoading || !model.service_id || !model.variant_id"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="2">
-        <label class="caption font-weight-bold">Gia ban</label>
+      <v-col cols="12" sm="">
+        <label class="caption font-weight-bold">Giá bán</label>
         <v-text-field
+          type="number"
           :value="model.sale_price"
           @input="(value) => updateModelSingleField(value, 'sale_price')"
           hide-details
@@ -78,7 +99,9 @@
           dense
           filled
           rounded
-          :disabled="isLoading || !model.service_id || !model.variant_id"
+          :disabled="
+            !isAdmin || isLoading || !model.service_id || !model.variant_id
+          "
         ></v-text-field>
       </v-col>
     </v-row>
@@ -105,13 +128,26 @@ export default {
         sale_price: 0,
         type: 'import',
       },
+      productLine: '',
     };
   },
   computed: {
+    isAdmin() {
+      return this.loggedRole === 'admin';
+    },
     productItems() {
       if (!this.model.service_id) return [];
       return this.products.filter(
         (p) => p.service.id === this.model.service_id,
+      );
+    },
+    productLines() {
+      return this.productItems.map((i) => i.product_line);
+    },
+    productNameItems() {
+      if (!this.productLine) return [];
+      return this.productItems.filter(
+        (p) => p.product_line === this.productLine,
       );
     },
   },

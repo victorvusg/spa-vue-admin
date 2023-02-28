@@ -12,24 +12,20 @@
           style="width:100%"
         >
           <div>
-            DANH SÁCH NHẬP KHO
-            <v-btn depressed icon color="primary" @click="fetchData()">
-              <v-icon dark>mdi-refresh</v-icon>
-            </v-btn>
+            DANH SÁCH TỒN KHO
           </div>
           <v-spacer></v-spacer>
-          <ImportForm @on-submit="handleOnSubmit" />
         </v-toolbar-title>
       </v-toolbar>
     </template>
     <template v-slot:item.name="{ item }">
-      {{ item.variant.name }}
+      {{ item.name }}
     </template>
     <template v-slot:item.brand="{ item }">
-      {{ item.variant.service.name }}
+      {{ item.service.name }}
     </template>
     <template v-slot:item.amount="{ item }">
-      {{ item.amount }}
+      {{ item.stock }}
     </template>
     <template v-slot:item.price="{ item }">
       {{ item.price | currency }}
@@ -47,17 +43,16 @@
 </template>
 <script>
 import CoreTable from '@/core/components/CoreTable';
-import ImportForm from './ImportForm';
 
 export default {
   name: 'ImportTable',
-  components: { ImportForm, CoreTable },
+  components: { CoreTable },
   data() {
     return {
       tab: null,
-      url: process.env.VUE_APP_CLIENT_API_ENDPOINT_PRODUCT_LOG,
+      url: process.env.VUE_APP_CLIENT_API_ENDPOINT_VARIANTS_LIST,
       extraParams: {
-        type: ['stock_up'],
+        service_categories: ['goods'],
       },
       tableRf: 'ImportTable',
     };
@@ -66,6 +61,7 @@ export default {
     headers() {
       const headers = [
         { text: 'Tên sản phẩm', value: 'name', sortable: false },
+        { text: 'Dòng', value: 'product_line', sortable: false },
         {
           text: 'Hãng',
           align: 'start',
@@ -73,8 +69,7 @@ export default {
           value: 'brand',
         },
         { text: 'Số lượng', value: 'amount', sortable: false },
-        { text: 'Giá Nhập', value: 'price', sortable: false },
-        { text: 'Ngày nhập', value: 'created_at', sortable: false },
+        { text: 'Giá bán', value: 'sale_price', sortable: false },
       ];
       if (this.loggedRole === 'admin') {
         headers.splice(4, 0, {
