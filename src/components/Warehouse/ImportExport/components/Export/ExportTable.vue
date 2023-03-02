@@ -27,10 +27,29 @@
       {{ item.variant.service.name }}
     </template>
     <template v-slot:item.type="{ item }">
-      {{ $t(item.type) }}
+      <span
+        :class="{
+          'red--text': item.type === 'sell',
+          'primary--text': item.type === 'use',
+          'blue--text': item.type === 'take',
+        }"
+        class="font-weight-bold"
+        >{{ $t(item.type) }}</span
+      >
     </template>
     <template v-slot:item.amount="{ item }">
-      {{ item.amount }}
+      <span
+        :class="{
+          'red--text': item.type === 'sell',
+          'primary--text': item.type === 'use',
+          'blue--text': item.type === 'take',
+        }"
+        class="font-weight-bold"
+        >{{ item.amount }}</span
+      >
+    </template>
+    <template v-slot:item.created_by="{ item }">
+      {{ item.created_by.name }}
     </template>
 
     <template v-slot:item.created_at="{ item }">
@@ -61,10 +80,11 @@ export default {
         { text: 'Nội Dung', value: 'type', sortable: false },
         { text: 'Số lượng', value: 'amount', sortable: false },
         { text: 'Ngày xuất', value: 'created_at', sortable: false },
+        { text: 'Tạo bởi', value: 'created_by', sortable: false },
       ],
       url: process.env.VUE_APP_CLIENT_API_ENDPOINT_PRODUCT_LOG,
       extraParams: {
-        type: ['sell', 'use'],
+        type: ['sell', 'use', 'take'],
       },
       tableRf: 'ImportTable',
     };

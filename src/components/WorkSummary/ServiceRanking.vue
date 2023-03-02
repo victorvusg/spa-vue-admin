@@ -35,7 +35,11 @@
                       {{ record.employee.name }}
                     </div>
                     <div>
-                      Số tour:
+                      <span>{{
+                        category.name === 'goods'
+                          ? 'Số sản phẩm bán được: '
+                          : 'Số tour: '
+                      }}</span>
                       <strong
                         :class="{
                           'red--text': record.quantity,

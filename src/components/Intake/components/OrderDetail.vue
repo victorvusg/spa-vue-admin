@@ -39,7 +39,11 @@
               class="caption grey--text"
               style="position: absolute; top: -8px"
             >
-              Phụ Trách bởi
+              {{
+                order.variant.service.service_category.name === 'goods'
+                  ? 'Người bán'
+                  : 'Phụ Trách bởi'
+              }}
             </div>
             <div class="font-weight-bold grey--text text--darken-1">
               {{ order.employee.name }}
