@@ -55,7 +55,7 @@ export default {
         service_categories: ['goods'],
       },
       tableRf: 'ImportTable',
-    }; 
+    };
   },
   computed: {
     headers() {
