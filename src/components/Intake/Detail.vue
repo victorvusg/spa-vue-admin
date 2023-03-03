@@ -10,14 +10,12 @@
         :class="{ 'pa-4': !isMobile }"
         :cols="isMobile ? 12 : 8"
       >
-        <div class="mb-2 d-flex align-end justify-space-between">
-          <div class="title">
-            Đơn số
-            <span class="font-weight-bold primary--text">
-              #{{ intake.id }}
-            </span>
+        <div class="mb-2 d-flex align-end justify-space-between mb-6">
+          <div class="headline font-weight-bold ">
+            ĐƠN SỐ
+            <span class="primary--text"> #{{ intake.id }} </span>
           </div>
-          <div class="caption font-weight-bold d-flex align-center">
+          <div class="headline font-weight-bold d-flex align-center">
             <template v-if="intake.is_valid">
               <v-icon size="18px" class="mr-1" color="primary">
                 mdi-check-circle-outline
@@ -32,43 +30,59 @@
             </template>
           </div>
         </div>
-        <!-- Main Review -->
-        <v-card
-          elevation="0"
+        <v-alert
+          class="mt-4"
+          outlined
+          color="warning"
+          prominent
+          border="left"
           v-if="intake.review_form && intake.review_form.note"
-          class="mt-2 pa-4 white"
-          style="border: thin dashed rgb(105, 158, 60); border-radius: 4px"
         >
-          <h3 class="mb-1 red--text">Đánh giá</h3>
+          <h3 class="overline">Đánh giá</h3>
+          <v-divider />
           <div
+            class="caption mt-4"
             style="white-space: pre-line;"
             v-html="intake.review_form.note"
           />
-        </v-card>
-
-        <!-- Single tickets  -->
-        <div v-if="singleTickets.length" class="mt-2">
-          <h4>Dịch vụ lẻ</h4>
-          <v-row class="mt-n2">
-            <v-col
-              :cols="isMobile ? 12 : 6"
-              v-for="ticket in singleTickets"
-              :key="ticket.id"
-            >
-              <SingleTicket :order="ticket" />
-            </v-col>
-          </v-row>
-        </div>
-
-        <!-- Promotion Tickets -->
-        <div v-if="promotionDeals.length" class="mt-2">
-          <h4>Deal Ưu Đãi</h4>
-          <v-row>
-            <v-col cols="12" v-for="deal in promotionDeals" :key="deal.id">
-              <PromotionDeal :order="deal" />
-            </v-col>
-          </v-row>
-        </div>
+        </v-alert>
+        <!-- Main Review -->
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left font-weight-bold subtitle-2 grey--text">
+                  TÊN DỊCH VỤ / SẢN PHẨM
+                </th>
+                <th class="text-right font-weight-bold subtitle-2 grey--text">
+                  SỐ LƯỢNG
+                </th>
+                <th class="text-right font-weight-bold subtitle-2 grey--text">
+                  ĐƠN GIÁ
+                </th>
+                <th class="text-right font-weight-bold subtitle-2 grey--text">
+                  TỔNG CỘNG
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <SingleCartItem
+                v-for="ticket in singleTickets"
+                :order="ticket"
+                :key="ticket.id"
+                @update="handleUpdate"
+                :disabled="intake.is_valid && intake.payment_method_id"
+                @onDelete="handleDelete"
+              />
+              <PromotionCartItem
+                v-for="deal in promotionDeals"
+                :order="deal"
+                :key="deal.id"
+                @onDelete="handleDelete"
+              />
+            </tbody>
+          </template>
+        </v-simple-table>
       </v-col>
 
       <v-col class="right-content" :cols="isMobile ? 12 : 4">
@@ -185,10 +199,13 @@ import InvoiceCard from '@/components/Intake/components/InvoiceCard';
 import PromotionDeal from '@/components/Intake/components/PromotionDeal';
 import ApprovalDialog from '@/components/Intake/dialogs/ApprovalDialog';
 import UpdatePaymentMethod from '@/components/Shared/UpdatePaymentMethod';
+import { privateAxios } from '@/api/api';
 
 import pricingMixins from '@/mixins/pricing.mixins';
 import { parseNote } from '@/helpers/intakeHelper';
 import { getIntake, updateIntake } from '@/api/intake';
+import SingleCartItem from './components/SingleCartItem';
+import PromotionCartItem from './components/PromotionCartItem';
 
 export default {
   name: 'intake',
@@ -202,6 +219,8 @@ export default {
     SingleTicket,
     ApprovalDialog,
     UpdatePaymentMethod,
+    SingleCartItem,
+    PromotionCartItem,
   },
   props: {
     id: {
@@ -369,6 +388,15 @@ export default {
     billingDetail(autoPrint) {
       this.autoPrint = autoPrint;
       this.receiptDialog = true;
+    },
+    handleUpdate() {
+      this.fetchData();
+    },
+    async handleDelete(id) {
+      await privateAxios.delete(
+        `${process.env.VUE_APP_CLIENT_API_ENDPOINT_ORDERS_LIST}/${id}`,
+      );
+      await this.fetchData();
     },
   },
   async created() {
