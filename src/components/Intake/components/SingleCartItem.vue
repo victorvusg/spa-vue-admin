@@ -6,6 +6,7 @@
           class="d-flex align-center red--text mr-2"
           icon
           @click="$emit('onDelete', order.id)"
+          v-if="!disabled"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>

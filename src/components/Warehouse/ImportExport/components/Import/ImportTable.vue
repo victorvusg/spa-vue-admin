@@ -73,7 +73,7 @@ export default {
           value: 'brand',
         },
         { text: 'Số lượng', value: 'amount', sortable: false },
-        { text: 'Giá Nhập', value: 'price', sortable: false },
+        { text: 'Giá bán', value: 'sale_price', sortable: false },
         { text: 'Ngày nhập', value: 'created_at', sortable: false },
       ];
       if (this.loggedRole === 'admin') {

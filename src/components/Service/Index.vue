@@ -57,7 +57,7 @@
           :href="'#tab-' + index"
           v-for="(category, index) in services"
           :key="index"
-          >{{ category.descriptions }} {{ tab }}</v-tab
+          >{{ category.descriptions }}</v-tab
         >
       </v-tabs>
       <v-tabs-items v-model="tab">
@@ -153,6 +153,17 @@
                               ></v-text-field>
                             </template>
                           </v-edit-dialog>
+                        </div>
+                      </template>
+                      <template v-slot:item.metadata="{ item }">
+                        <div>
+                          <div
+                            v-for="d of Object.keys(item.metadata)"
+                            :key="`${item.id}_${d}`"
+                          >
+                            <span class="font-weight-bold">{{ $t(d) }}</span> :
+                            <span>{{ item.metadata[d] }}</span>
+                          </div>
                         </div>
                       </template>
                       <template v-slot:item.price="{ item }">
@@ -292,7 +303,7 @@ export default {
           },
           {
             text: this.$t('services.metadata'),
-            value: 'stock',
+            value: 'metadata',
             sortable: false,
           },
         );

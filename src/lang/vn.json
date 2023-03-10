@@ -196,7 +196,9 @@
     "commission": "Hoa hồng",
     "cat": "Loại",
     "credit_price": "Giá Xu",
-    "stock": "Số lượng"
+    "stock": "Số lượng",
+    "product_line": "Dòng sản phẩm",
+    "metadata": "Thông tin khác"
   },
   "add_service_form": {
     "name": "Tên dịch vụ",
@@ -408,7 +410,7 @@
   "goods_mappers": {
     "MilbonMapper": {
       "type": "Type",
-      "volume": "Thể tích(ml)",
+      "volume": "Thể tích",
       "hairType": "Hair type"
     }
   },
@@ -416,5 +418,8 @@
   "add_variants": "Thêm lựa chọn",
   "use": "Sử dụng cho Spa",
   "sell": "Bán",
-  "take": "Tạo bởi Admin"
+  "take": "Tạo bởi Admin",
+  "type":"Loại",
+  "volume": "Thể tích",
+  "hairType": "Kiểu tóc"
 }
