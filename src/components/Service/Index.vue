@@ -294,11 +294,16 @@ export default {
       ];
       if (this.tab === 'tab-goods') {
         headers.splice(
-          0,
+          1,
           0,
           {
             text: this.$t('services.product_line'),
             value: 'product_line',
+            sortable: false,
+          },
+          {
+            text: 'Mô tả',
+            value: 'description',
             sortable: false,
           },
           {

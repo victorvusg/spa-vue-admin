@@ -19,13 +19,17 @@
       </v-toolbar>
     </template>
     <template v-slot:item.name="{ item }">
-      {{ item.name }}
-    </template>
-    <template v-slot:item.brand="{ item }">
-      {{ item.service.name }}
+      {{ item.service.name }} - {{ item.name }}
     </template>
     <template v-slot:item.amount="{ item }">
-      {{ item.stock }}
+      <span
+        class="font-weight-bold"
+        :class="{
+          'red--text': item.stock < 10,
+          'green--text': item.stock >= 10,
+        }"
+        >{{ item.stock }}</span
+      >
     </template>
     <template v-slot:item.price="{ item }">
       {{ item.price | currency }}
@@ -59,15 +63,15 @@ export default {
   },
   computed: {
     headers() {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        return [
+          { text: 'Tên sản phẩm', value: 'name', sortable: false },
+          { text: 'Số lượng', value: 'amount', sortable: false },
+        ];
+      }
       const headers = [
         { text: 'Tên sản phẩm', value: 'name', sortable: false },
         { text: 'Dòng', value: 'product_line', sortable: false },
-        {
-          text: 'Hãng',
-          align: 'start',
-          sortable: false,
-          value: 'brand',
-        },
         { text: 'Số lượng', value: 'amount', sortable: false },
         { text: 'Giá bán', value: 'sale_price', sortable: false },
       ];
