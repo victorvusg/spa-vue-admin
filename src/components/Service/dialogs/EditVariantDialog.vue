@@ -61,7 +61,7 @@
             <v-select
               :disabled="!isPromotion"
               :menu-props="{ bottom: true, offsetY: true }"
-              :items="serviceCategories"
+              :items="variantCategories"
               v-model="form.variant_category"
               item-text="descriptions"
               item-value="name"
@@ -319,6 +319,9 @@ export default {
   },
   computed: {
     ...mapState('service', ['serviceCategories']),
+    variantCategories() {
+      return this.serviceCategories.filter((item) => item.name !== 'promotion' && item.name !== 'extra');
+    },
     isGoods() {
       if (
         !this.variant ||
